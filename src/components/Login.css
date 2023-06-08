@@ -1,0 +1,68 @@
+.base {
+    color: white;
+    /*padding: 16px;*/
+    text-align: center;
+    background-image: url('../assets/pexels-fauxels-3184418.jpg');
+    background-size: cover;
+}
+
+.container {
+    max-width: 300px;
+    margin: 200px auto 0;
+    padding: 1px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-size: cover;
+    background-position: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-top: 4px;
+}
+
+button {
+    padding: 8px 16px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.text {
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 1px;
+    font-size: small;
+}
+
+.error {
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 1px;
+    font-size: small;
+    color: red;
+}

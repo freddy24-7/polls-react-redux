@@ -1,0 +1,39 @@
+.base {
+    color: white;
+    padding: 8px;
+    text-align: center;
+    background-image: url('../assets/pexels-fauxels-3184418.jpg');
+    background-size: cover;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style-type: none;
+    padding: 0;
+    height: 70px;
+    flex-wrap: wrap;
+}
+
+.nav-link {
+    color: #ffffff;
+}
+
+.links {
+    display: flex;
+    align-items: center;
+}
+
+.nav li {
+    margin: 0 10px;
+}
+
+.nav li.right {
+    margin-left: auto;
+}
+
+.nav .new {
+    margin-right: 900px;
+    color: #ffffff;
+}
