@@ -4,16 +4,17 @@ import Dashboard from "./components/Dashboard";
 import {Fragment, useState} from "react";
 import {users} from "./_DATA";
 import Navigation from "./components/Navigation";
+import {useLocalStorage} from "./hooks/useLocalStorage";
 
 function App() {
 
     const navigate = useNavigate();
 
-    const [selectedUser, setSelectedUser] = useState('');
-    const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const [avatar, setAvatar] = useState('');
-    const [userId, setUserId] = useState('');
+    const [selectedUser, setSelectedUser] = useLocalStorage("selectedUser", "");
+    const [password, setPassword] = useLocalStorage("password", "");
+    const [avatar, setAvatar] = useLocalStorage("avatar", "");
+    const [userId, setUserId] = useLocalStorage("userId", "");
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -37,11 +38,15 @@ function App() {
     };
 
     const handleLogout = () => {
-        setSelectedUser('');
-        setPassword('');
-        setErrorMessage('');
-        setAvatar('');
-        setUserId('');
+        setUserId('')
+        setAvatar('')
+        setSelectedUser('')
+        setPassword('')
+        setErrorMessage('')
+        localStorage.removeItem("selectedUser");
+        localStorage.removeItem("password");
+        localStorage.removeItem("avatar");
+        localStorage.removeItem("userId");
         navigate('/');
     };
 
