@@ -1,37 +1,13 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { users } from '../_DATA';
 import './Login.css';
 import Button from './Button';
 import Card from './Card';
 
-const Login = () => {
-    const navigate = useNavigate();
-
-    const [selectedUser, setSelectedUser] = useState('');
-    const [password, setPassword] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
+const Login = ( {selectedUser, setSelectedUser, password, setPassword,
+                    errorMessage, handleLogin} ) => {
 
     const handleUserChange = (e) => {
         setSelectedUser(e.target.value);
-    };
-
-    const handleLogin = (e) => {
-        e.preventDefault();
-
-        if (selectedUser && password) {
-            const user = users[selectedUser];
-
-            if (user && user.password === password) {
-                console.log('Logged in as:', user.name);
-
-                navigate('/home');
-            } else {
-                setErrorMessage('Invalid password');
-            }
-        } else {
-            setErrorMessage('Please select a user and enter a password');
-        }
     };
 
     return (

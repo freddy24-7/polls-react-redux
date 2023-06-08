@@ -1,14 +1,19 @@
 import React from 'react';
-import Navigation from "./Navigation";
 import './Dashboard.css';
-import {users} from "../_DATA";
 
-const Dashboard = () => {
+const Dashboard = ( {selectedUser, avatar, userId} ) => {
+
+    console.log(avatar);
+    console.log(userId);
+    console.log(selectedUser);
 
     return (
-        <div className="dashboard-container">
-            <Navigation />
-            <h2>Welcome</h2>
+
+    <div className="dashboard-container">
+            {/*<Navigation />*/}
+            <h2>Welcome {selectedUser}</h2>
+        {/*display avatar here*/}
+        <img src={avatar} alt="avatar" />
         </div>
     );
 };
