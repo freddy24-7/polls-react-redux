@@ -3,12 +3,14 @@ import { NavLink } from 'react-router-dom';
 import './Navigation.css';
 import Button from "./Button";
 
+// Navigation component
 const Navigation = ({ selectedUser, avatar, userId, handleLogout }) => {
-
+    // Logging the values of avatar, userId, and selectedUser
     console.log(avatar);
     console.log(userId);
     console.log(selectedUser);
 
+    // If userId is falsy (undefined, null, etc.), return null
     if (!userId) {
         return null;
     }
@@ -37,6 +39,7 @@ const Navigation = ({ selectedUser, avatar, userId, handleLogout }) => {
                 </li>
                 <li className="links">
                     <NavLink to="/">
+                        {/* Button component for logout */}
                         <Button onClick={handleLogout}>Logout</Button>
                     </NavLink>
                 </li>
