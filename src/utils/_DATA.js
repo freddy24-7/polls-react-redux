@@ -1,7 +1,7 @@
-import avatarSara from './assets/adventurer-1686220697855.jpg';
-import avatarTyler from './assets/adventurer-1686220535457.png';
-import avatarMike from './assets/adventurer-1686220777175.jpg';
-import avatarZenobia from './assets/adventurer-1686220702223.jpg';
+import avatarSara from '../assets/adventurer-1686220697855.jpg';
+import avatarTyler from '../assets/adventurer-1686220535457.png';
+import avatarMike from '../assets/adventurer-1686220777175.jpg';
+import avatarZenobia from '../assets/adventurer-1686220702223.jpg';
 
 export let users = {
   sarahedo: {

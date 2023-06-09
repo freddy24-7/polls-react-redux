@@ -1,4 +1,4 @@
-import { users } from '../_DATA';
+import { users } from '../utils/_DATA';
 import './Login.css';
 import Button from './Button';
 import Card from './Card';

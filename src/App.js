@@ -1,12 +1,14 @@
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
-import {Fragment, useState} from "react";
-import {users} from "./_DATA";
+import {Fragment, useState, useEffect} from "react";
+import {users} from "./utils/_DATA";
 import Navigation from "./components/Navigation";
 import {useLocalStorage} from "./hooks/useLocalStorage";
+import { connect } from "react-redux";
+import { handleInitialData } from "./actions/shared";
 
-function App() {
+function App(props) {
 
     const navigate = useNavigate();
 
@@ -25,9 +27,6 @@ function App() {
             if (user && user.password === password) {
                 setAvatar(user.avatarURL)
                 setUserId(user.id)
-                console.log('Logged in as:', user.name);
-                console.log('id:', user.id);
-                console.log('Avatar:', user.avatarURL);
                 navigate('/home');
             } else {
                 setErrorMessage('Invalid password');
@@ -50,6 +49,11 @@ function App() {
         navigate('/');
     };
 
+    useEffect(() => {
+        // useEffect hook to handle initial data fetching
+        props.dispatch(handleInitialData());
+    }, []);
+
     return (
 
         <Fragment>
@@ -60,7 +64,7 @@ function App() {
                 userId={userId}
                 handleLogout={handleLogout}
             />
-        <Routes>
+            <Routes>
             <Route path="/" element={<Login
             selectedUser={selectedUser}
             setSelectedUser={setSelectedUser}
@@ -82,4 +86,4 @@ function App() {
     );
 }
 
-export default App;
+export default connect()(App);
