@@ -17,6 +17,7 @@ function App(props) {
     const [password, setPassword] = useLocalStorage("password", "");
     const [avatar, setAvatar] = useLocalStorage("avatar", "");
     const [userId, setUserId] = useLocalStorage("userId", "");
+    const [initialRender, setInitialRender] = useState(true);
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -50,9 +51,14 @@ function App(props) {
     };
 
     useEffect(() => {
-        // useEffect hook to handle initial data fetching
-        props.dispatch(handleInitialData());
-    }, []);
+        if (initialRender) {
+            setInitialRender(false);
+            return;
+        }
+
+        const innerFunction = handleInitialData();
+        innerFunction(props.dispatch).then(r => console.log("handleInitialData"));
+    }, [initialRender, props.dispatch]);
 
     return (
 
