@@ -2,3 +2,19 @@
     background-color: white;
     height: 100vh;
 }
+
+
+.center {
+    text-align: center;
+}
+
+
+ul {
+    padding-left: 0;
+}
+
+li {
+    list-style-type: none;
+    padding: 10px;
+    text-decoration: none;
+}
