@@ -6,14 +6,17 @@ import App from './App';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import reducer from './reducers';
-// import middleware from "./middleware";
 import applyMiddleware from './middleware';
+
+// Create the Redux store with the combined reducer and middleware
 const store = createStore(reducer, applyMiddleware);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    {/* Set up the BrowserRouter to enable routing */}
     <BrowserRouter>
+      {/* Provide the Redux store to the entire app */}
       <Provider store={store}>
         <App />
       </Provider>

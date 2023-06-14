@@ -5,13 +5,12 @@ import Button from './Button';
 
 // Navigation component
 const Navigation = ({ avatar, userId, handleLogout }) => {
-  // If userId is falsy (undefined, null, etc.), return null
   if (!userId) {
     return null;
   }
 
   return (
-    <nav className="base">
+    <nav className="base fixed">
       <ul className="nav">
         <li className="links">
           <NavLink to="/home" className="nav-link">
@@ -34,7 +33,6 @@ const Navigation = ({ avatar, userId, handleLogout }) => {
         </li>
         <li className="links">
           <NavLink to="/">
-            {/* Button component for logout */}
             <Button onClick={handleLogout}>Logout</Button>
           </NavLink>
         </li>

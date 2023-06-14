@@ -1,13 +1,14 @@
 import { Route, Routes, useNavigate } from 'react-router-dom';
-import Login from './components/Login';
-import Dashboard from './components/Dashboard';
-import { Fragment, useState, useEffect } from 'react';
+import { Fragment, useState } from 'react';
 import { users } from './utils/_DATA';
 import Navigation from './components/Navigation';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { connect } from 'react-redux';
-import { handleInitialData } from './actions/shared';
 import LoadingBar from 'react-redux-loading-bar';
+import { logoutUser } from './actions/authedUser';
+
+import Login from './components/Login';
+import Dashboard from './components/Dashboard';
 
 function App(props) {
   const navigate = useNavigate();
@@ -17,7 +18,6 @@ function App(props) {
   const [password, setPassword] = useLocalStorage('password', '');
   const [avatar, setAvatar] = useLocalStorage('avatar', '');
   const [userId, setUserId] = useLocalStorage('userId', '');
-  const [initialRender, setInitialRender] = useState(true);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -28,7 +28,7 @@ function App(props) {
       if (user && user.password === password) {
         setAvatar(user.avatarURL);
         setUserId(user.id);
-        navigate('/home');
+        navigate('/home', { replace: true });
       } else {
         setErrorMessage('Invalid password');
       }
@@ -38,6 +38,7 @@ function App(props) {
   };
 
   const handleLogout = () => {
+    props.dispatch(logoutUser());
     setUserId('');
     setAvatar('');
     setSelectedUser('');
@@ -50,25 +51,8 @@ function App(props) {
     navigate('/');
   };
 
-  useEffect(() => {
-    // Handle initial render case
-    if (initialRender) {
-      setInitialRender(false);
-      return;
-    }
-
-    // Call handleInitialData to fetch and dispatch initial data
-    const innerFunction = handleInitialData();
-    innerFunction(props.dispatch).then(() => {
-      console.log('handleInitialData');
-    });
-  }, [initialRender, props.dispatch]);
-
   return (
     <Fragment>
-      {/* Rendering the LoadingBar component */}
-      <LoadingBar />
-      {/*<div>{props.loading === true ? null : <Dashboard />}</div>;*/}
       {/* Navigation component */}
       <Navigation
         selectedUser={selectedUser}
@@ -77,34 +61,31 @@ function App(props) {
         userId={userId}
         handleLogout={handleLogout}
       />
-      {/* Routes configuration */}
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Login
-              selectedUser={selectedUser}
-              setSelectedUser={setSelectedUser}
-              password={password}
-              setPassword={setPassword}
-              errorMessage={errorMessage}
-              setErrorMessage={setErrorMessage}
-              handleLogin={handleLogin}
-            />
-          }
-        />
-        <Route
-          path="/home"
-          element={
-            <Dashboard
-              selectedUser={selectedUser}
-              setSelectedUser={setSelectedUser}
-              avatar={avatar}
-              userId={userId}
-            />
-          }
-        />
-      </Routes>
+      <div>
+        {/* Display loading bar if loading */}
+        {props.loading === true ? (
+          <LoadingBar style={{ backgroundColor: '#85715d' }} />
+        ) : null}{' '}
+        <Routes>
+          {/* Route for Login component */}
+          <Route
+            path="/"
+            element={
+              <Login
+                selectedUser={selectedUser}
+                setSelectedUser={setSelectedUser}
+                password={password}
+                setPassword={setPassword}
+                errorMessage={errorMessage}
+                setErrorMessage={setErrorMessage}
+                handleLogin={handleLogin}
+              />
+            }
+          />
+          {/* Route for Dashboard component */}
+          <Route path="/home" element={<Dashboard />} />
+        </Routes>
+      </div>
     </Fragment>
   );
 }

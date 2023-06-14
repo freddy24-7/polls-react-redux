@@ -1,9 +1,11 @@
 .base {
     color: white;
-    padding: 8px;
     text-align: center;
-    background-image: url('../assets/pexels-fauxels-3184418.jpg');
-    background-size: cover;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background-color: #fff;
+    z-index: 10;
 }
 
 .nav {
@@ -46,4 +48,8 @@
 
 .user-id {
     margin-left: 8px;
+}
+
+.fixed {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
