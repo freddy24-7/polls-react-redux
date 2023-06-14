@@ -1,4 +1,4 @@
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { Fragment, useState } from 'react';
 import { users } from './utils/_DATA';
 import Navigation from './components/Navigation';
@@ -6,13 +6,12 @@ import { useLocalStorage } from './hooks/useLocalStorage';
 import { connect } from 'react-redux';
 import LoadingBar from 'react-redux-loading-bar';
 import { logoutUser } from './actions/authedUser';
-
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
+import LeaderBoard from './components/LeaderBoard';
 
 function App(props) {
   const navigate = useNavigate();
-
   const [errorMessage, setErrorMessage] = useState('');
   const [selectedUser, setSelectedUser] = useLocalStorage('selectedUser', '');
   const [password, setPassword] = useLocalStorage('password', '');
@@ -51,6 +50,8 @@ function App(props) {
     navigate('/');
   };
 
+  const loggedIn = JSON.parse(localStorage.getItem('userId'));
+
   return (
     <Fragment>
       {/* Navigation component */}
@@ -83,7 +84,17 @@ function App(props) {
             }
           />
           {/* Route for Dashboard component */}
-          <Route path="/home" element={<Dashboard />} />
+          {loggedIn ? (
+            <Route path="/home" element={<Dashboard />} />
+          ) : (
+            <Route path="/" />
+          )}
+          {loggedIn ? (
+            <Route path="/leaderboard" element={<LeaderBoard />} />
+          ) : (
+            <Route path="/" />
+          )}
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>
     </Fragment>

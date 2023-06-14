@@ -60,6 +60,13 @@
 
 .question-text {
     margin-top: 10px;
+    font-weight: bold;
+}
+
+.options-list {
+    list-style-type: disc;
+    margin-left: 0px;
+    padding-left: 20px;
 }
 
 .dashboard-container {
