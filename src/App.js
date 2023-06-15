@@ -9,6 +9,7 @@ import { logoutUser } from './actions/authedUser';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import LeaderBoard from './components/LeaderBoard';
+import Questions from './components/Questions';
 
 function App(props) {
   const navigate = useNavigate();
@@ -91,6 +92,11 @@ function App(props) {
           )}
           {loggedIn ? (
             <Route path="/leaderboard" element={<LeaderBoard />} />
+          ) : (
+            <Route path="/" />
+          )}
+          {loggedIn ? (
+            <Route path="/questions/:question_id" element={<Questions />} />
           ) : (
             <Route path="/" />
           )}
