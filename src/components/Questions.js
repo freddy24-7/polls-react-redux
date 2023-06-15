@@ -4,39 +4,34 @@ import { useParams } from 'react-router-dom';
 import { formatPercentage } from '../utils/helpers';
 import './Questions.css';
 import { handleInitialData } from '../actions/shared';
+import Vote from './Vote';
 
 const Questions = () => {
   const { question_id } = useParams();
-
-  // Get question, users, and authedUser from the Redux store
   const question = useSelector((state) => state.questions[question_id]);
   const users = useSelector((state) => state.users);
   const authedUser = useSelector((state) => state.authedUser);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // Fetch and dispatch initial data on component mount
+    // Fetch initial data
     dispatch(handleInitialData());
   }, [dispatch]);
 
-  // If question, users, or authedUser is not available, return null
   if (!question || !users || !authedUser) {
+    // Render nothing if data is not available yet
     return null;
   }
 
-  // Get author details from users
   const author = users[question.author];
-
-  // Calculate total votes and percentages for each option
   const totalVotes =
     question.optionOne.votes.length + question.optionTwo.votes.length;
+
   const optionOneVotes = question.optionOne.votes.length;
   const optionTwoVotes = question.optionTwo.votes.length;
   const optionOnePercentage = (optionOneVotes / totalVotes) * 100;
   const optionTwoPercentage = (optionTwoVotes / totalVotes) * 100;
 
-  // Check if the authedUser has responded to the question
   const userHasResponded =
     question.optionOne.votes.includes(authedUser) ||
     question.optionTwo.votes.includes(authedUser);
@@ -51,7 +46,7 @@ const Questions = () => {
           </div>
           <div className="options-container">
             {userHasResponded ? (
-              // Render options with votes and percentages if user has responded
+              // User has responded to the question
               <>
                 <div
                   className={`option ${
@@ -81,14 +76,16 @@ const Questions = () => {
                 </div>
               </>
             ) : (
-              // Render options without votes and percentages if user has not responded
+              // User has not responded to the question
               <>
-                <div className="option">
-                  <p>{question.optionOne.text}</p>
-                </div>
-                <div className="option">
-                  <p>{question.optionTwo.text}</p>
-                </div>
+                <Vote
+                  optionText={question.optionOne.text}
+                  questionId={question_id}
+                />
+                <Vote
+                  optionText={question.optionTwo.text}
+                  questionId={question_id}
+                />
               </>
             )}
           </div>

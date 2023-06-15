@@ -1,26 +1,32 @@
-import { RECEIVE_QUESTIONS } from '../actions/questions';
-import { TOGGLE_QUESTION } from '../actions/toggleQuestion';
+import { RECEIVE_QUESTIONS, SAVE_QUESTION_ANSWER } from '../actions/questions';
 
-// Reducer for handling questions state
 export default function questions(state = {}, action) {
   switch (action.type) {
     case RECEIVE_QUESTIONS:
-      // Update the state with received questions
       return {
         ...state,
         ...action.questions,
       };
 
-    case TOGGLE_QUESTION:
-      // Toggle the "expanded" property of the specified question
-      const { questionId } = action;
-      return {
-        ...state,
-        [questionId]: {
+    case SAVE_QUESTION_ANSWER:
+      const { questionId, optionText, authedUser } = action;
+
+      if (state[questionId] && state[questionId][optionText]) {
+        const updatedQuestion = {
           ...state[questionId],
-          expanded: !state[questionId]?.expanded,
-        },
-      };
+          [optionText]: {
+            ...state[questionId][optionText],
+            votes: state[questionId][optionText].votes.concat(authedUser),
+          },
+        };
+
+        return {
+          ...state,
+          [questionId]: updatedQuestion,
+        };
+      }
+
+      return state;
 
     default:
       return state;
