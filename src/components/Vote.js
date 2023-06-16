@@ -1,23 +1,24 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Button from './Button';
-import { handleSaveQuestionAnswer } from '../actions/questions';
 
-const Vote = ({ optionText, questionId }) => {
-  const dispatch = useDispatch();
+const Vote = ({ optionText, onVote }) => {
+  const navigate = useNavigate();
 
   const handleVote = () => {
-    // Dispatch the action to save the question answer
-    dispatch(handleSaveQuestionAnswer(questionId, optionText));
+    // Call the onVote function with the selected option
+    onVote(optionText);
+
+    // Set a timeout to transition to the home route after 7 seconds
+    setTimeout(() => {
+      navigate('/home');
+    }, 7000);
   };
 
   return (
     <div className="vote-option">
       <p>{optionText}</p>
-      <Link to="/home">
-        <Button onClick={handleVote}>Vote</Button>
-      </Link>
+      <Button onClick={handleVote}>Vote</Button>
     </div>
   );
 };
