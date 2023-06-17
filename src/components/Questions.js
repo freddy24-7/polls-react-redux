@@ -19,12 +19,31 @@ const Questions = () => {
   const [modalDisplayNumber, setModalDisplayNumber] = useState(0);
   const [modalPercentage, setModalPercentage] = useState(0);
 
+  const author = users[question.author];
+  const totalVotes =
+    question.optionOne.votes.length + question.optionTwo.votes.length;
+
+  const optionOneVotes = question.optionOne.votes.length;
+  const optionTwoVotes = question.optionTwo.votes.length;
+  const optionOnePercentage = (optionOneVotes / totalVotes) * 100;
+  const optionTwoPercentage = (optionTwoVotes / totalVotes) * 100;
+
   useEffect(() => {
     // Fetch initial data
     dispatch(handleInitialData());
   }, [dispatch]);
 
   useEffect(() => {
+    if (!question || !users || !authedUser) {
+      // Render nothing if data is not available yet
+      return null;
+    }
+
+    if (!question.optionOne || !question.optionTwo) {
+      // Render an error message or appropriate UI when the question is not found
+      return <div>Question not found.</div>;
+    }
+
     if (selectedOption === question.optionOne.text) {
       setModalDisplayNumber(question.optionOne.votes.length + 1);
       setModalPercentage(
@@ -44,21 +63,7 @@ const Questions = () => {
           100,
       );
     }
-  }, [selectedOption, question]);
-
-  if (!question || !users || !authedUser) {
-    // Render nothing if data is not available yet
-    return null;
-  }
-
-  const author = users[question.author];
-  const totalVotes =
-    question.optionOne.votes.length + question.optionTwo.votes.length;
-
-  const optionOneVotes = question.optionOne.votes.length;
-  const optionTwoVotes = question.optionTwo.votes.length;
-  const optionOnePercentage = (optionOneVotes / totalVotes) * 100;
-  const optionTwoPercentage = (optionTwoVotes / totalVotes) * 100;
+  }, [selectedOption, question, authedUser, users]);
 
   const userHasResponded =
     question.optionOne.votes.includes(authedUser) ||
