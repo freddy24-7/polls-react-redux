@@ -18,7 +18,9 @@ const Vote = ({ optionText, onVote }) => {
   return (
     <div className="vote-option">
       <p>{optionText}</p>
-      <Button onClick={handleVote}>Vote</Button>
+      <Button data-testid="vote-button" onClick={handleVote}>
+        Vote
+      </Button>
     </div>
   );
 };

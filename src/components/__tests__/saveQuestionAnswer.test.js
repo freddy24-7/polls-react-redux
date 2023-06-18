@@ -1,31 +1,31 @@
-import { _saveQuestionAnswer } from '../../utils/_DATA';
+import {_saveQuestionAnswer} from "../../utils/_DATA";
 
 describe('_saveQuestionAnswer()', () => {
-    test('returns true when correctly formatted data is passed', async () => {
-        // Arrange
-        const authedUser = 'sarahedo';
-        const qid = '8xf0y6ziyjabvozdd253nd';
-        const answer = 'optionOne';
+  test('returns true when correctly formatted data is passed', async () => {
+    // Arrange
+    const authedUser = 'sarahedo';
+    const qid = '8xf0y6ziyjabvozdd253nd';
+    const answer = 'optionOne';
 
-        // Act
-        const result = await _saveQuestionAnswer({ authedUser, qid, answer });
+    // Act
+    const result = await _saveQuestionAnswer({ authedUser, qid, answer });
 
-        // Assert
-        expect(result).toBe(true);
-    });
+    // Assert
+    expect(result).toBe(true);
+  });
 
-    test('returns an error when incorrect data is passed', async () => {
-        // Arrange
-        const authedUser = null; // Passing null to trigger an error
-        const qid = '8xf0y6ziyjabvozdd253nd';
-        const answer = 'optionOne';
+  test('returns an error when incorrect data is passed', async () => {
+    // Arrange
+    const authedUser = null; // Passing null to trigger an error
+    const qid = '8xf0y6ziyjabvozdd253nd';
+    const answer = 'optionOne';
 
-        // Act & Assert
-        try {
-            await _saveQuestionAnswer({ authedUser, qid, answer });
-        } catch (error) {
-            // Assert
-            expect(error).toBe('Please provide authedUser, qid, and answer');
-        }
-    });
+    // Act & Assert
+    try {
+      await _saveQuestionAnswer({ authedUser, qid, answer });
+    } catch (error) {
+      // Assert
+      expect(error).toBe('Please provide authedUser, qid, and answer');
+    }
+  });
 });
