@@ -1,4 +1,4 @@
-import {_saveQuestionAnswer} from "../../utils/_DATA";
+import { _saveQuestionAnswer } from '../../utils/_DATA';
 
 describe('_saveQuestionAnswer()', () => {
   test('returns true when correctly formatted data is passed', async () => {
@@ -21,11 +21,8 @@ describe('_saveQuestionAnswer()', () => {
     const answer = 'optionOne';
 
     // Act & Assert
-    try {
-      await _saveQuestionAnswer({ authedUser, qid, answer });
-    } catch (error) {
-      // Assert
-      expect(error).toBe('Please provide authedUser, qid, and answer');
-    }
+    await expect(
+      async () => await _saveQuestionAnswer({ authedUser, qid, answer }),
+    ).rejects.toThrowError('Please provide authedUser, qid, and answer');
   });
 });
