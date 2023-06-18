@@ -14,8 +14,8 @@ import Questions from './components/Questions';
 function App(props) {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState('');
-  const [selectedUser, setSelectedUser] = useLocalStorage('selectedUser', '');
-  const [password, setPassword] = useLocalStorage('password', '');
+  const [selectedUser, setSelectedUser] = useState('');
+  const [password, setPassword] = useState('');
   const [avatar, setAvatar] = useLocalStorage('avatar', '');
   const [userId, setUserId] = useLocalStorage('userId', '');
 
@@ -44,10 +44,7 @@ function App(props) {
     setSelectedUser('');
     setPassword('');
     setErrorMessage('');
-    localStorage.removeItem('selectedUser');
-    localStorage.removeItem('password');
-    localStorage.removeItem('avatar');
-    localStorage.removeItem('userId');
+    localStorage.clear();
     navigate('/');
   };
 

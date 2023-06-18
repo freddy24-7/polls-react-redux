@@ -19,10 +19,18 @@ const Dashboard = () => {
     (id) => !answeredQuestionIds.includes(id),
   );
 
+  // Function to render the list of questions
   const renderQuestionList = (questionIds) => {
+    // Filter and sort the questionIds based on availability and timestamp
     const filteredQuestionIds = questionIds
       .filter((id) => questions[id] && questions[id].author)
       .sort((a, b) => questions[b].timestamp - questions[a].timestamp);
+    console.log('Updated question data:', filteredQuestionIds);
+
+    // Check if there are questions available
+    if (filteredQuestionIds.length === 0) {
+      return null;
+    }
 
     return (
       <div className="question-list">
@@ -40,8 +48,10 @@ const Dashboard = () => {
               <span>{formatDate(questions[id].timestamp)}</span>
             </div>
             {answeredQuestionIds.includes(id) ? (
+              // Displayed when the question is already answered by the user
               <div className="card-body"></div>
             ) : (
+              // Displayed when the question is unanswered by the user
               <div className="card-body">
                 <p className="question-text">Would you rather?</p>
                 <ul className="options-list">
@@ -53,8 +63,10 @@ const Dashboard = () => {
             <div className="center">
               <Link to={`/questions/${id}`}>
                 {answeredQuestionIds.includes(id) ? (
+                  // Show button when the question is already answered
                   <Button>Show</Button>
                 ) : (
+                  // Vote button when the question is unanswered
                   <Button>Vote</Button>
                 )}
               </Link>
@@ -65,6 +77,7 @@ const Dashboard = () => {
     );
   };
 
+  // Filter and sort the unanswered questionIds
   const filteredUnansweredQuestionIds = unansweredQuestionIds
     .filter((id) => questions[id] !== undefined)
     .sort((a, b) => questions[b].timestamp - questions[a].timestamp);
@@ -74,6 +87,7 @@ const Dashboard = () => {
     dispatch(handleInitialData());
   }, [dispatch]);
 
+  // Render nothing if the required data is not available yet
   if (!userId || !questions || !answeredQuestionIds || !unansweredQuestionIds) {
     return null;
   }
@@ -81,9 +95,13 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
       <h5 className="h5">Welcome {user ? user.name : ''}</h5>
-      <h2 className="h2">Questions already done</h2>
+      {answeredQuestionIds.length > 0 && (
+        <h2 className="h2">Questions already done</h2>
+      )}
       {renderQuestionList(answeredQuestionIds)}
-      <h2 className="center">New Questions</h2>
+      {filteredUnansweredQuestionIds.length > 0 && (
+        <h2 className="center">New Questions</h2>
+      )}
       {renderQuestionList(filteredUnansweredQuestionIds)}
     </div>
   );
