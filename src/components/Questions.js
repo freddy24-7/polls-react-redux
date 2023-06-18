@@ -91,7 +91,7 @@ const Questions = () => {
     localStorage.setItem(`selectedOption_${question_id}`, optionText);
   };
 
-  //Cleaning up on unmount, to align with the persistence of the data in the store
+  //Cleaning up on unmount, to align with the (lack of) persistence of the data in the store
   window.addEventListener('beforeunload', () => {
     // Remove the values from localStorage when the page is about to be unloaded
     localStorage.removeItem(`hasResponded_${question_id}`);

@@ -12,7 +12,7 @@ const Vote = ({ optionText, onVote }) => {
     // Set a timeout to transition to the home route after 7 seconds
     setTimeout(() => {
       navigate('/home');
-    }, 7000);
+    }, 3500);
   };
 
   return (
