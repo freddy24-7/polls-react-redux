@@ -3,7 +3,6 @@ import { NavLink } from 'react-router-dom';
 import './Navigation.css';
 import Button from './Button';
 
-// Navigation component
 const Navigation = ({ avatar, userId, handleLogout }) => {
   if (!userId) {
     return null;
@@ -23,8 +22,8 @@ const Navigation = ({ avatar, userId, handleLogout }) => {
           </NavLink>
         </li>
         <li className="links">
-          <NavLink to="/new" className="new">
-            New
+          <NavLink to="/add" className="new">
+            Add Question
           </NavLink>
         </li>
         <li>

@@ -1,6 +1,6 @@
 // Define a constant variable to hold the action type string.
 // Import the necessary API function
-import { saveQuestionAnswer } from '../utils/api';
+import { saveQuestion, saveQuestionAnswer } from '../utils/api';
 
 export const RECEIVE_QUESTIONS = 'RECEIVE_QUESTIONS';
 
@@ -36,6 +36,29 @@ export function handleSaveQuestionAnswer(questionId, optionText) {
         questionId,
         optionText,
         authedUser,
+      });
+    });
+  };
+}
+
+export const SAVE_QUESTION = 'SAVE_QUESTION';
+
+export function handleSaveQuestion(optionOneText, optionTwoText) {
+  return (dispatch, getState) => {
+    const { authedUser } = getState();
+
+    const question = {
+      author: authedUser,
+      optionOneText,
+      optionTwoText,
+      timestamp: Date.now(),
+    };
+
+    // Dispatch the action to save the new question
+    return saveQuestion(question).then((savedQuestion) => {
+      dispatch({
+        type: SAVE_QUESTION,
+        question: savedQuestion, // Pass the saved question object to the action
       });
     });
   };

@@ -10,6 +10,8 @@ import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import LeaderBoard from './components/LeaderBoard';
 import Questions from './components/Questions';
+import NewQuestion from './components/NewQuestion';
+// import NotFound from './components/NotFound';
 
 function App(props) {
   const navigate = useNavigate();
@@ -66,7 +68,6 @@ function App(props) {
           <LoadingBar style={{ backgroundColor: '#85715d' }} />
         ) : null}{' '}
         <Routes>
-          {/* Route for Login component */}
           <Route
             path="/"
             element={
@@ -81,23 +82,17 @@ function App(props) {
               />
             }
           />
-          {/* Route for Dashboard component */}
-          {loggedIn ? (
-            <Route path="/home" element={<Dashboard />} />
-          ) : (
-            <Route path="/" />
-          )}
-          {loggedIn ? (
-            <Route path="/leaderboard" element={<LeaderBoard />} />
-          ) : (
-            <Route path="/" />
-          )}
-          {loggedIn ? (
+          {loggedIn && <Route path="/home" element={<Dashboard />} />}
+          {loggedIn && <Route path="/leaderboard" element={<LeaderBoard />} />}
+          {loggedIn && (
             <Route path="/questions/:question_id" element={<Questions />} />
-          ) : (
-            <Route path="/" />
           )}
+          {loggedIn && <Route path="/add" element={<NewQuestion />} />}
           <Route path="*" element={<Navigate to="/" />} />
+          {/*<Route*/}
+          {/*    path="/404"*/}
+          {/*    element={<NotFound handleLogout={handleLogout} />}*/}
+          {/*/>*/}
         </Routes>
       </div>
     </Fragment>

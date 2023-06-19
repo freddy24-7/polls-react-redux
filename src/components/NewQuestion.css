@@ -1,0 +1,34 @@
+.card {
+    max-width: 400px;
+    margin: 70px auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 60px;
+    transition: background-color 0.3s ease;
+}
+
+.new-question-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.new-question-label {
+    margin-bottom: 20px; /* Adjust the distance between labels */
+}
+
+.new-question-label:first-child {
+    margin-top: 20px; /* Adjust the distance above the first label */
+}
+
+.new-question-form input {
+    padding: 8px;
+    margin-bottom: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+
+.new-question-heading {
+    text-align: center;
+    margin-bottom: 20px;
+}
