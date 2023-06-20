@@ -7,17 +7,17 @@ test('should call onVote function and navigate after clicking the Vote button', 
   // Mock the onVote function
   const mockOnVote = jest.fn();
 
-  // Render the component within a Router
+  //Rendering the component within a Router
   render(
     <BrowserRouter>
       <Vote optionText="Option 1" onVote={mockOnVote} />
     </BrowserRouter>,
   );
 
-  // Find the Vote button and click it
+  //Finding the Vote button and click it
   const voteButton = screen.getByRole('button');
   fireEvent.click(voteButton);
 
-  // Verify that the onVote function is called
+  //Verifying that the onVote function is called
   expect(mockOnVote).toHaveBeenCalledTimes(1);
 });

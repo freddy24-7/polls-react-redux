@@ -50,7 +50,7 @@ function App(props) {
     navigate('/');
   };
 
-  const loggedIn = JSON.parse(localStorage.getItem('userId'));
+  // const loggedIn = JSON.parse(localStorage.getItem('userId'));
 
   return (
     <Fragment>
@@ -82,12 +82,12 @@ function App(props) {
               />
             }
           />
-          {loggedIn && <Route path="/home" element={<Dashboard />} />}
-          {loggedIn && <Route path="/leaderboard" element={<LeaderBoard />} />}
-          {loggedIn && (
+          {userId && <Route path="/home" element={<Dashboard />} />}
+          {userId && <Route path="/leaderboard" element={<LeaderBoard />} />}
+          {userId && (
             <Route path="/questions/:question_id" element={<Questions />} />
           )}
-          {loggedIn && <Route path="/add" element={<NewQuestion />} />}
+          {userId && <Route path="/add" element={<NewQuestion />} />}
           <Route path="*" element={<Navigate to="/" />} />
           <Route
             path="/404"

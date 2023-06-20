@@ -6,7 +6,10 @@ import thunk from 'redux-thunk';
 import LeaderBoard from '../LeaderBoard';
 
 describe('LeaderBoard component', () => {
-  const mockStore = configureStore([thunk]); // Apply the redux-thunk middleware
+  // Configuring the mock store with the thunk middleware
+  const mockStore = configureStore([thunk]);
+
+  // Defining the initial state of the store
   const initialState = {
     users: {
       sarahedo: {
@@ -19,19 +22,22 @@ describe('LeaderBoard component', () => {
           qid4: 'optionTwo',
         },
       },
-      // Add more sample users as needed
     },
   };
+
+  //Creating a mock store instance with the initial state
   const store = mockStore(initialState);
 
+  //Defining the test case
   test('renders user card with correct name', () => {
+    // Render the LeaderBoard component with the Provider and the mock store
     render(
       <Provider store={store}>
         <LeaderBoard />
       </Provider>,
     );
 
-    // Check that the user card is rendered with the correct name
+    //Checking that the user card is rendered with the correct name
     expect(screen.getByText('Sarah Edo')).toBeInTheDocument();
   });
 });

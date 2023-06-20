@@ -1,70 +1,77 @@
-# Getting Started with Create React App
+# Employee Polls Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The Employee Polls Application is a web application that allows employees to participate in polls and view poll results. It provides features such as logging in, answering questions, creating new questions, and viewing leaderboard standings.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- User authentication: Users can log in with their credentials to access the application.
+- Dashboard: After logging in, users are redirected to the dashboard where they can view and answer polls.
+- Leaderboard: Users can check their ranking on the leaderboard based on their participation.
+- Questions: Users can view individual poll questions and submit their answers.
+- New Question: Users can create new poll questions.
+- Error Handling: The application handles invalid logins, incorrect passwords, and displays appropriate error messages.
+- Loading Bar: A loading bar is displayed during certain loading processes.
 
-### `npm start`
+## Technologies Used
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- React: JavaScript library for building user interfaces.
+- React Router: Library for handling navigation and routing in a React application.
+- Redux: State management library for managing application state.
+- react-redux: Official React bindings for Redux.
+- react-redux-loading-bar: Redux addon for displaying a loading bar.
+- react-router-dom: DOM bindings for React Router.
+- HTML/CSS: Markup and styling languages for structuring and designing the application.
+- JavaScript: Programming language for implementing application logic.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Getting Started
 
-### `npm test`
+### Prerequisites
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Node.js: Make sure you have Node.js installed on your machine.
 
-### `npm run build`
+### Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Clone the repository:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+git clone https://github.com/freddy24-7/polls-react-redux
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+cd my-app
+```
 
-### `npm run eject`
+2. Install dependencies:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+npm install
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. Start the application:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+npm start
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+4. Open the application in your browser:
 
-## Learn More
+```bash
+http://localhost:3000
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Project Structure
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+Project Structure
+src: Contains the source code files for the application.
+components: Contains React components used in the application.
+hooks: Contains custom hooks used in the application.
+actions: Contains Redux actions for modifying the application state.
+reducers: Contains Redux reducers for managing the application state.
+utils: Contains utility functions and data used in the application.
+middleware: Contains Redux middleware for handling asynchronous actions.
+styles: Contains CSS files for styling the application.
+```
 
-### Code Splitting
+## License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+```

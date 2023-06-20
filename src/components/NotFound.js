@@ -25,6 +25,7 @@ const NotFound = ({ handleLogout }) => {
       <Card className="not-found-card">
         <h2 className="not-found-title">404 - Page Not Found</h2>
         <p className="not-found-text">The requested poll does not exist.</p>
+        <p className="not-found-text">You will need to log in again.</p>
       </Card>
     </div>
   );
