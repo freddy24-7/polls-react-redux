@@ -17,6 +17,7 @@ const LeaderBoard = () => {
     return null;
   }
 
+  //Calculating the total score for each user
   const userScores = Object.values(users).map((user) => ({
     id: user.id,
     name: user.name,

@@ -7,12 +7,12 @@ const Modal = ({ message }) => {
 
     console.log('Modal opened:', true);
 
-    // Set a timeout to close the modal after 7 seconds
+    //Setting a timeout to close the modal after 7 seconds
     const timeout = setTimeout(() => {
       console.log('Modal closed:', false);
     }, 3500);
 
-    // Clean up the timeout when the modal component unmounts
+    //Cleaning up the timeout when the modal component unmounts
     return () => clearTimeout(timeout);
   }, []);
 

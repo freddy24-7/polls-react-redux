@@ -11,7 +11,7 @@ import Dashboard from './components/Dashboard';
 import LeaderBoard from './components/LeaderBoard';
 import Questions from './components/Questions';
 import NewQuestion from './components/NewQuestion';
-// import NotFound from './components/NotFound';
+import NotFound from './components/NotFound';
 
 function App(props) {
   const navigate = useNavigate();
@@ -89,10 +89,10 @@ function App(props) {
           )}
           {loggedIn && <Route path="/add" element={<NewQuestion />} />}
           <Route path="*" element={<Navigate to="/" />} />
-          {/*<Route*/}
-          {/*    path="/404"*/}
-          {/*    element={<NotFound handleLogout={handleLogout} />}*/}
-          {/*/>*/}
+          <Route
+            path="/404"
+            element={<NotFound handleLogout={handleLogout} />}
+          />
         </Routes>
       </div>
     </Fragment>

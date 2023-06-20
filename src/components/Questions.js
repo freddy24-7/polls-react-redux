@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { formatPercentage } from '../utils/helpers';
 import './Questions.css';
 import { handleInitialData } from '../actions/shared';
 import Vote from './Vote';
 import Modal from './Modal';
 import { handleSaveQuestionAnswer } from '../actions/questions';
+import questions from '../reducers/questions';
 
 const Questions = () => {
+  const navigate = useNavigate();
   const { question_id } = useParams();
   const question = useSelector((state) => state.questions[question_id]);
   const users = useSelector((state) => state.users);
@@ -39,6 +41,9 @@ const Questions = () => {
     totalVotes !== 0 ? (optionOneVotes / totalVotes) * 100 : 0;
   const optionTwoPercentage =
     totalVotes !== 0 ? (optionTwoVotes / totalVotes) * 100 : 0;
+
+  const timestamp = question && question.timestamp;
+  console.log(timestamp);
 
   useEffect(() => {
     // Fetch initial data
@@ -80,6 +85,14 @@ const Questions = () => {
 
   //Handling the vote
   const handleVote = (optionText) => {
+    console.log(questions);
+    //Using the timestamp property to check if this is a user generated question and not from DB
+    //Any question generated after 1 Jan 2023 will be considered user generated
+    if (timestamp >= 1640995200000) {
+      navigate('/404');
+      return;
+    }
+
     dispatch(handleSaveQuestionAnswer(question_id, optionText));
     setSelectedOption(optionText);
     setShowModal(true);
