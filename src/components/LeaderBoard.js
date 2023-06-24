@@ -1,17 +1,12 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import './LeaderBoard.css';
 import Card from './Card';
-import { handleInitialData } from '../actions/shared';
+import { useInitialDataLoader } from '../utils/dataLoader';
 
 const LeaderBoard = () => {
   const users = useSelector((state) => state.users);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    // Fetch and dispatch initial data
-    dispatch(handleInitialData());
-  }, [dispatch]);
+  useInitialDataLoader();
 
   if (!users) {
     return null;

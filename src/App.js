@@ -5,13 +5,15 @@ import Navigation from './components/Navigation';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { connect } from 'react-redux';
 import LoadingBar from 'react-redux-loading-bar';
-import { logoutUser } from './actions/authedUser';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import LeaderBoard from './components/LeaderBoard';
 import Questions from './components/Questions';
 import NewQuestion from './components/NewQuestion';
 import NotFound from './components/NotFound';
+import { resetState } from './redux/index';
+import { logoutUser } from './redux/authedUserSlice';
+import { useDispatch } from 'react-redux';
 
 function App(props) {
   const navigate = useNavigate();
@@ -20,6 +22,7 @@ function App(props) {
   const [password, setPassword] = useState('');
   const [avatar, setAvatar] = useLocalStorage('avatar', '');
   const [userId, setUserId] = useLocalStorage('userId', '');
+  const dispatch = useDispatch();
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -40,7 +43,8 @@ function App(props) {
   };
 
   const handleLogout = () => {
-    props.dispatch(logoutUser());
+    dispatch(logoutUser());
+    dispatch(resetState());
     setUserId('');
     setAvatar('');
     setSelectedUser('');
@@ -49,8 +53,6 @@ function App(props) {
     localStorage.clear();
     navigate('/');
   };
-
-  // const loggedIn = JSON.parse(localStorage.getItem('userId'));
 
   return (
     <Fragment>

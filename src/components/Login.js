@@ -12,7 +12,7 @@ const Login = ({
   errorMessage,
   handleLogin,
 }) => {
-  // Event handler for user selection
+  //Event handler for user selection
   const handleUserChange = (e) => {
     setSelectedUser(e.target.value);
   };

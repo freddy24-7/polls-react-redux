@@ -1,34 +1,43 @@
 import React, { Fragment, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { handleSaveQuestion } from '../actions/questions';
+import { saveQuestion } from '../redux/questionsSlice';
 import Button from './Button';
 import './NewQuestion.css';
+import { users } from '../utils/_DATA';
 
 const NewQuestion = () => {
   const [optionOneText, setOptionOneText] = useState('');
   const [optionTwoText, setOptionTwoText] = useState('');
+  const authedUser = useSelector((state) => state.authedUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const handleOptionOneChange = (e) => {
     setOptionOneText(e.target.value);
   };
-
   const handleOptionTwoChange = (e) => {
     setOptionTwoText(e.target.value);
   };
 
+  //Dispatching the saveQuestion action creator
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Dispatch the action to save the new question
-    dispatch(handleSaveQuestion(optionOneText, optionTwoText));
+    dispatch(
+      saveQuestion({
+        questionId: Object.keys(users[authedUser].questions).pop(),
+        optionOneText: optionOneText,
+        optionTwoText: optionTwoText,
+        author: authedUser,
+      }),
+    );
 
-    // Reset the form fields
+    //Resetting the form fields
     setOptionOneText('');
     setOptionTwoText('');
 
-    // Navigate back to the home page
+    //Navigating back to the home page
     navigate('/home');
   };
 
@@ -59,7 +68,6 @@ const NewQuestion = () => {
               onChange={handleOptionTwoChange}
               required
             />
-
             <Button type="submit">Submit</Button>
           </form>
         </div>

@@ -179,13 +179,15 @@ export function _saveQuestion(question) {
     }
 
     const formattedQuestion = formatQuestion(question);
+    const questionId = formattedQuestion.id;
+
     setTimeout(() => {
       questions = {
         ...questions,
-        [formattedQuestion.id]: formattedQuestion,
+        [questionId]: formattedQuestion,
       };
 
-      resolve(formattedQuestion);
+      resolve(questionId); // Return the question ID
     }, 1000);
   });
 }

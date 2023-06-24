@@ -1,27 +1,34 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import './Dashboard.css';
-import { handleInitialData } from '../actions/shared';
 import QuestionList from './QuestionList';
+import initialDataLoader from '../utils/initialDataLoader';
 
 const Dashboard = () => {
   const userId = useSelector((state) => state.authedUser);
   const questions = useSelector((state) => state.questions);
   const users = useSelector((state) => state.users);
-  const dispatch = useDispatch();
-
   const user = users[userId];
-  const answeredQuestionIds = user ? Object.keys(user.answers) : [];
-  const unansweredQuestionIds = Object.keys(questions).filter(
-    (id) => !answeredQuestionIds.includes(id),
-  );
+
+  //Loading initial data
+  initialDataLoader();
 
   useEffect(() => {
-    // Fetch and dispatch initial data
-    dispatch(handleInitialData());
-  }, [dispatch]);
+    const answeredQuestionIds = user ? Object.keys(user.answers) : [];
+    const unansweredQuestionIds = Object.keys(questions).filter(
+      (id) => !answeredQuestionIds.includes(id),
+    );
 
-  // Render nothing if the required data is not available yet
+    //Recalculating the question IDs whenever the questions slice state or user data changes
+    setAnsweredQuestionIds(answeredQuestionIds);
+    setUnansweredQuestionIds(unansweredQuestionIds);
+  }, [user]);
+
+  //State variables to store the recalculated question IDs
+  const [answeredQuestionIds, setAnsweredQuestionIds] = React.useState([]);
+  const [unansweredQuestionIds, setUnansweredQuestionIds] = React.useState([]);
+
+  //Rendering nothing if the required data is not available yet
   if (!userId || !questions || !answeredQuestionIds || !unansweredQuestionIds) {
     return null;
   }
