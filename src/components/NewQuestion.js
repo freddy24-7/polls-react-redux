@@ -5,6 +5,7 @@ import { saveQuestion } from '../redux/questionsSlice';
 import Button from './Button';
 import './NewQuestion.css';
 import { users } from '../utils/_DATA';
+import { resetState } from '../redux';
 
 const NewQuestion = () => {
   const [optionOneText, setOptionOneText] = useState('');
@@ -39,6 +40,7 @@ const NewQuestion = () => {
 
     //Navigating back to the home page
     navigate('/home');
+    dispatch(resetState());
   };
 
   return (

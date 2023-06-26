@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { formatPercentage } from '../utils/helpers';
 import './Questions.css';
 import Vote from './Vote';
@@ -8,7 +8,6 @@ import Modal from './Modal';
 import { saveQuestionAnswer } from '../redux/questionsSlice';
 
 const Questions = () => {
-  const navigate = useNavigate();
   const { question_id } = useParams();
   const question = useSelector((state) => state.questions[question_id]);
   const users = useSelector((state) => state.users);
@@ -39,8 +38,6 @@ const Questions = () => {
     totalVotes !== 0 ? (optionOneVotes / totalVotes) * 100 : 0;
   const optionTwoPercentage =
     totalVotes !== 0 ? (optionTwoVotes / totalVotes) * 100 : 0;
-
-  const timestamp = question && question.timestamp;
 
   //Data manipulation for the modal
   useEffect(() => {
