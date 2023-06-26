@@ -43,7 +43,7 @@ const Questions = () => {
   useEffect(() => {
     if (!question || !users || !authedUser) {
       // Render nothing if data is not available yet
-      return null;
+      return () => {};
     }
 
     if (!question.optionOne || !question.optionTwo) {

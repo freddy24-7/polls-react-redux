@@ -29,9 +29,19 @@ const questionsSlice = createSlice({
           },
         };
 
+        //Updating the user's answers property with the new question ID
+        const updatedUser = {
+          ...state[authedUser],
+          answers: {
+            ...state[authedUser].answers,
+            [questionId]: optionText,
+          },
+        };
+
         return {
           ...state,
           [questionId]: updatedQuestion,
+          [authedUser]: updatedUser,
         };
       }
 
