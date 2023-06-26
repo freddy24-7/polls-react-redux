@@ -1,4 +1,10 @@
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import {
+  Navigate,
+  Route,
+  Routes,
+  useNavigate,
+  useLocation,
+} from 'react-router-dom';
 import { Fragment, useEffect, useState } from 'react';
 import { users } from './utils/_DATA';
 import Navigation from './components/Navigation';
@@ -24,6 +30,7 @@ function App(props) {
   const [avatar, setAvatar] = useLocalStorage('avatar', '');
   const [userId, setUserId] = useLocalStorage('userId', '');
   const dispatch = useDispatch();
+  const location = useLocation();
 
   useEffect(() => {
     // Retrieve the last user from local storage
@@ -59,6 +66,10 @@ function App(props) {
   };
 
   const handleLogout = () => {
+    // Check if the items exist in local storage
+    if (localStorage.getItem('lastUser') && localStorage.getItem('lastURL')) {
+      localStorage.clear();
+    }
     localStorage.setItem('lastUser', userId);
     localStorage.setItem('lastURL', window.location.pathname);
     dispatch(logoutUser());
@@ -68,19 +79,25 @@ function App(props) {
     setSelectedUser('');
     setPassword('');
     setErrorMessage('');
-    // Check if the items exist in local storage
-    if (localStorage.getItem('lastUser') && localStorage.getItem('lastURL')) {
-      // Get the values of the items
-      const lastUserValue = localStorage.getItem('lastUser');
-      const lastURLValue = localStorage.getItem('lastURL');
-      // Clear all items from local storage
-      localStorage.clear();
-      // Set the items back to local storage
-      localStorage.setItem('lastUser', lastUserValue);
-      localStorage.setItem('lastURL', lastURLValue);
-    }
     navigate('/');
   };
+
+  useEffect(() => {
+    const accessedByTyping = [
+      '/add',
+      '/leaderboard',
+      '/home',
+      '/questions/:question_id',
+    ].includes(location.pathname);
+
+    if (accessedByTyping) {
+      // Logic to handle when any of the specified URLs were accessed by typing in the browser
+      console.log('URL accessed by typing in the browser');
+      handleLogout();
+      localStorage.setItem('lastURL', location.pathname);
+      navigate('/');
+    }
+  }, []);
 
   return (
     <Fragment>
