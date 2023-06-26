@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { users } from './utils/_DATA';
 import Navigation from './components/Navigation';
 import { useLocalStorage } from './hooks/useLocalStorage';
@@ -25,6 +25,14 @@ function App(props) {
   const [userId, setUserId] = useLocalStorage('userId', '');
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    // Retrieve the last user from local storage
+    const lastUser = localStorage.getItem('lastUser');
+    if (lastUser) {
+      setSelectedUser(lastUser);
+    }
+  }, []);
+
   const handleLogin = (e) => {
     e.preventDefault();
 
@@ -34,7 +42,14 @@ function App(props) {
       if (user && user.password === password) {
         setAvatar(user.avatarURL);
         setUserId(user.id);
-        navigate('/home', { replace: true });
+
+        // Retrieve the last URL from local storage
+        const lastURL = localStorage.getItem('lastURL');
+        if (lastURL) {
+          navigate(lastURL, { replace: true });
+        } else {
+          navigate('/home', { replace: true });
+        }
       } else {
         setErrorMessage('Invalid password');
       }
@@ -44,6 +59,8 @@ function App(props) {
   };
 
   const handleLogout = () => {
+    localStorage.setItem('lastUser', userId);
+    localStorage.setItem('lastURL', window.location.pathname);
     dispatch(logoutUser());
     dispatch(resetState());
     setUserId('');
@@ -51,7 +68,17 @@ function App(props) {
     setSelectedUser('');
     setPassword('');
     setErrorMessage('');
-    localStorage.clear();
+    // Check if the items exist in local storage
+    if (localStorage.getItem('lastUser') && localStorage.getItem('lastURL')) {
+      // Get the values of the items
+      const lastUserValue = localStorage.getItem('lastUser');
+      const lastURLValue = localStorage.getItem('lastURL');
+      // Clear all items from local storage
+      localStorage.clear();
+      // Set the items back to local storage
+      localStorage.setItem('lastUser', lastUserValue);
+      localStorage.setItem('lastURL', lastURLValue);
+    }
     navigate('/');
   };
 
