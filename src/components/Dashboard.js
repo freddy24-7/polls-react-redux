@@ -10,6 +10,8 @@ const Dashboard = () => {
   const users = useSelector((state) => state.users);
   const user = users[userId];
 
+  console.log(questions);
+
   //Loading initial data
   initialDataLoader();
 
@@ -19,10 +21,9 @@ const Dashboard = () => {
       (id) => !answeredQuestionIds.includes(id),
     );
 
-    //Recalculating the question IDs whenever the questions slice state or user data changes
     setAnsweredQuestionIds(answeredQuestionIds);
     setUnansweredQuestionIds(unansweredQuestionIds);
-  }, [user]);
+  }, [user, questions]);
 
   //State variables to store the recalculated question IDs
   const [answeredQuestionIds, setAnsweredQuestionIds] = React.useState([]);

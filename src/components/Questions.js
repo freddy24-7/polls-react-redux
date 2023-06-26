@@ -77,19 +77,11 @@ const Questions = () => {
 
   //Handling the vote
   const handleVote = (optionText) => {
-    console.log(optionText);
-    console.log(authedUser, question_id);
-    //Using the timestamp property to check if this is a user generated question and not from DB
-    //Any question generated after 1 Jan 2023 will be considered user generated
-    if (timestamp >= 1640995200000) {
-      navigate('/404');
-      return;
-    }
     dispatch(
       saveQuestionAnswer({
         authedUser,
         questionId: question_id,
-        optionText: selectedOption,
+        optionText,
       }),
     );
     setSelectedOption(optionText);
