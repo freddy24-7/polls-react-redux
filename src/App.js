@@ -14,6 +14,7 @@ import NotFound from './components/NotFound';
 import { resetState } from './redux/index';
 import { logoutUser } from './redux/authedUserSlice';
 import { useDispatch } from 'react-redux';
+import Protected from './utils/Protected';
 
 function App(props) {
   const navigate = useNavigate();
@@ -84,12 +85,38 @@ function App(props) {
               />
             }
           />
-          {userId && <Route path="/home" element={<Dashboard />} />}
-          {userId && <Route path="/leaderboard" element={<LeaderBoard />} />}
-          {userId && (
-            <Route path="/questions/:question_id" element={<Questions />} />
-          )}
-          {userId && <Route path="/add" element={<NewQuestion />} />}
+          <Route
+            path="/home"
+            element={
+              <Protected userId={userId}>
+                <Dashboard />
+              </Protected>
+            }
+          />
+          <Route
+            path="/leaderboard"
+            element={
+              <Protected userId={userId}>
+                <LeaderBoard />
+              </Protected>
+            }
+          />
+          <Route
+            path="/questions/:question_id"
+            element={
+              <Protected userId={userId}>
+                <Questions />
+              </Protected>
+            }
+          />
+          <Route
+            path="/add"
+            element={
+              <Protected userId={userId}>
+                <NewQuestion />
+              </Protected>
+            }
+          />
           <Route path="*" element={<Navigate to="/" />} />
           <Route
             path="/404"
