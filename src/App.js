@@ -42,18 +42,31 @@ function App(props) {
 
   const handleLogin = (e) => {
     e.preventDefault();
+    // Retrieve the last URL from local storage
+    const lastURL = localStorage.getItem('lastURL');
+    const lastUser = localStorage.getItem('lastUser');
+    const user = users[selectedUser];
+    console.log(lastURL);
+    console.log(typeof lastURL);
+    console.log(lastUser);
+    console.log(user);
+    console.log(selectedUser);
 
     if (selectedUser && password) {
-      const user = users[selectedUser];
-
       if (user && user.password === password) {
         setAvatar(user.avatarURL);
         setUserId(user.id);
 
-        // Retrieve the last URL from local storage
-        const lastURL = localStorage.getItem('lastURL');
-        if (lastURL) {
-          navigate(lastURL, { replace: true });
+        if (selectedUser === lastUser) {
+          if (lastURL && typeof lastURL === 'string') {
+            if (lastURL.startsWith('/questions/')) {
+              navigate('/404');
+            } else {
+              navigate(lastURL, { replace: true });
+            }
+          } else {
+            navigate('/home', { replace: true });
+          }
         } else {
           navigate('/home', { replace: true });
         }
@@ -83,19 +96,21 @@ function App(props) {
   };
 
   useEffect(() => {
-    const accessedByTyping = [
-      '/add',
-      '/leaderboard',
-      '/home',
-      '/questions/:question_id',
-    ].includes(location.pathname);
-
-    if (accessedByTyping) {
-      // Logic to handle when any of the specified URLs were accessed by typing in the browser
-      console.log('URL accessed by typing in the browser');
-      handleLogout();
-      localStorage.setItem('lastURL', location.pathname);
-      navigate('/');
+    const path = location.pathname;
+    const questionPath = path.startsWith('/questions/')
+      ? location.pathname
+      : '';
+    const accessedByTyping = ['/add', '/leaderboard', '/home'].includes(path);
+    handleLogout();
+    navigate('/');
+    const validPaths = ['/add', '/leaderboard', '/home'];
+    if (validPaths.includes(path) && accessedByTyping) {
+      localStorage.setItem('lastURL', path);
+    } else {
+      localStorage.removeItem('lastURL');
+    }
+    if (questionPath) {
+      localStorage.setItem('lastURL', questionPath);
     }
   }, []);
 

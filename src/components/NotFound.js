@@ -1,31 +1,32 @@
-import { useNavigate } from 'react-router-dom';
 import Card from './Card';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import './NotFound.css';
 
 const NotFound = ({ handleLogout }) => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  // Redirecting to the home page after 3 seconds
-  useEffect(() => {
-    const logoutTimer = setTimeout(() => {
-      handleLogout();
-      navigate('/');
-    }, 3000);
-
-    return () => {
-      clearTimeout(logoutTimer);
-    };
-  }, [dispatch, navigate, handleLogout]);
+  //README: Allows the logout after hitting NotFound
+  //README: Here silenced as not needed for this project
+  // const dispatch = useDispatch();
+  // const navigate = useNavigate();
+  //
+  // useEffect(() => {
+  //
+  //   const logoutTimer = setTimeout(() => {
+  //     handleLogout();
+  //     navigate('/');
+  //   }, 3000);
+  //
+  //   return () => {
+  //     clearTimeout(logoutTimer);
+  //   };
+  // }, [dispatch, navigate, handleLogout]);
 
   return (
     <div className="not-found-container">
       <Card className="not-found-card">
         <h2 className="not-found-title">404 - Page Not Found</h2>
-        <p className="not-found-text">The requested poll does not exist.</p>
-        <p className="not-found-text">You will need to log in again.</p>
+        <p className="not-found-text">
+          The requested poll question does not exist.
+        </p>
+        <p className="not-found-text">Please click "Home" to continue.</p>
       </Card>
     </div>
   );
