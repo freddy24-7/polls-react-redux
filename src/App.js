@@ -9,7 +9,7 @@ import { Fragment, useEffect, useState } from 'react';
 import { users } from './utils/_DATA';
 import Navigation from './components/Navigation';
 import { useLocalStorage } from './hooks/useLocalStorage';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import LoadingBar from 'react-redux-loading-bar';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
@@ -21,8 +21,10 @@ import { resetState } from './redux/index';
 import { logoutUser } from './redux/authedUserSlice';
 import { useDispatch } from 'react-redux';
 import Protected from './utils/Protected';
+import { saveQuestionAnswer } from './utils/api';
 
 function App(props) {
+  const location = useLocation();
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState('');
   const [selectedUser, setSelectedUser] = useState('');
@@ -30,7 +32,6 @@ function App(props) {
   const [avatar, setAvatar] = useLocalStorage('avatar', '');
   const [userId, setUserId] = useLocalStorage('userId', '');
   const dispatch = useDispatch();
-  const location = useLocation();
 
   useEffect(() => {
     // Retrieve the last user from local storage
@@ -42,15 +43,10 @@ function App(props) {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // Retrieve the last URL from local storage
+
     const lastURL = localStorage.getItem('lastURL');
     const lastUser = localStorage.getItem('lastUser');
     const user = users[selectedUser];
-    console.log(lastURL);
-    console.log(typeof lastURL);
-    console.log(lastUser);
-    console.log(user);
-    console.log(selectedUser);
 
     if (selectedUser && password) {
       if (user && user.password === password) {
@@ -59,7 +55,18 @@ function App(props) {
 
         if (selectedUser === lastUser) {
           if (lastURL && typeof lastURL === 'string') {
-            if (lastURL.startsWith('/questions/')) {
+            const exceptions = [
+              '/questions/8xf0y6ziyjabvozdd253nd',
+              '/questions/6ni6ok3ym7mf1p33lnez',
+              '/questions/am8ehyc8byjqgar0jgpub9',
+              '/questions/loxhs1bqm25b708cmbf3g',
+              '/questions/vthrdm985a262al8qx3do',
+              '/questions/xj352vofupe1dqz9emx13r',
+            ];
+
+            if (exceptions.includes(lastURL)) {
+              navigate(lastURL, { replace: true });
+            } else if (lastURL.startsWith('/questions/')) {
               navigate('/404');
             } else {
               navigate(lastURL, { replace: true });
@@ -86,7 +93,7 @@ function App(props) {
     localStorage.setItem('lastUser', userId);
     localStorage.setItem('lastURL', window.location.pathname);
     dispatch(logoutUser());
-    dispatch(resetState());
+    // dispatch(resetState());
     setUserId('');
     setAvatar('');
     setSelectedUser('');
@@ -112,7 +119,7 @@ function App(props) {
     if (questionPath) {
       localStorage.setItem('lastURL', questionPath);
     }
-  }, []);
+  }, [dispatch]);
 
   return (
     <Fragment>

@@ -107,6 +107,82 @@ const Questions = () => {
       question.optionTwo.votes.includes(authedUser) ||
       localStorage.getItem(`hasResponded_${question_id}`) === 'true');
 
+  console.log('question', question);
+  console.log('users', users);
+  console.log('authedUser', authedUser);
+  // const Questions = () => {
+  //   const { question_id } = useParams();
+  //   const question = useSelector((state) => state.questions[question_id]);
+  //   const users = useSelector((state) => state.users);
+  //   const authedUser = useSelector((state) => state.authedUser);
+  //   const dispatch = useDispatch();
+  //   const [showModal, setShowModal] = useState(false);
+  //   const [selectedOption, setSelectedOption] = useState('');
+  //   const [modalDisplayNumber, setModalDisplayNumber] = useState(0);
+  //   const [modalPercentage, setModalPercentage] = useState(0);
+  //
+  //   const author = question && question.author ? users[question.author] : null;
+  //   const totalVotes =
+  //     question && question.optionOne && question.optionTwo
+  //       ? question.optionOne.votes.length + question.optionTwo.votes.length
+  //       : 0;
+  //
+  //   const optionOneVotes =
+  //     question && question.optionOne && question.optionOne.votes
+  //       ? question.optionOne.votes.length
+  //       : 0;
+  //
+  //   const optionTwoVotes =
+  //     question && question.optionTwo && question.optionTwo.votes
+  //       ? question.optionTwo.votes.length
+  //       : 0;
+  //
+  //   const optionOnePercentage =
+  //     totalVotes !== 0 ? (optionOneVotes / totalVotes) * 100 : 0;
+  //   const optionTwoPercentage =
+  //     totalVotes !== 0 ? (optionTwoVotes / totalVotes) * 100 : 0;
+  //
+  //   // Compute the userHasResponded variable
+  //   const userHasResponded =
+  //     question &&
+  //     question.optionOne &&
+  //     question.optionTwo &&
+  //     (question.optionOne.votes.includes(authedUser) ||
+  //       question.optionTwo.votes.includes(authedUser) ||
+  //       localStorage.getItem(`hasResponded_${question_id}`) === 'true');
+  //
+  //   // Handling the vote
+  //   const handleVote = (optionText) => {
+  //     dispatch(
+  //       saveQuestionAnswer({
+  //         authedUser,
+  //         questionId: question_id,
+  //         optionText,
+  //       }),
+  //     );
+  //     setSelectedOption(optionText);
+  //     setShowModal(true);
+  //
+  //     // Saving the user's response to localStorage with the question ID as part of the key
+  //     localStorage.setItem(`hasResponded_${question_id}`, true.toString());
+  //
+  //     // Storing the selected option in local storage
+  //     localStorage.setItem(`selectedOption_${question_id}`, optionText);
+  //   };
+  //
+  //   // Cleaning up on unmount, to align with the (lack of) persistence of the data in the store
+  //   useEffect(() => {
+  //     return () => {
+  //       // Remove the values from localStorage when the component unmounts
+  //       localStorage.removeItem(`hasResponded_${question_id}`);
+  //       localStorage.removeItem(`selectedOption_${question_id}`);
+  //     };
+  //   }, [question_id]);
+  //
+  //   console.log('question', question);
+  //   console.log('users', users);
+  //   console.log('authedUser', authedUser);
+  //
   return (
     <div className="question-container">
       {question && users && authedUser ? (
