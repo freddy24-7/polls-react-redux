@@ -136,6 +136,44 @@ function App(props) {
       navigate('/');
     }
   }, []);
+  // useEffect(() => {
+  //   const path = location.pathname;
+  //   const validPaths = ['/add', '/leaderboard', '/home'];
+  //   const lastUser = localStorage.getItem('lastUser'); // Retrieve the last user from local storage
+  //
+  //   if (validPaths.includes(path)) {
+  //     if (selectedUser === lastUser) {
+  //       navigate(path, { replace: true }); // Navigate to the last visited valid path
+  //     } else {
+  //       handleLogout();
+  //       localStorage.removeItem('lastURL');
+  //       navigate('/'); // Navigate to the login page
+  //     }
+  //   } else if (specificRoutes.includes(path)) {
+  //     if (selectedUser === lastUser) {
+  //       navigate(path, { replace: true }); // Navigate to the last visited specific route
+  //     } else {
+  //       handleLogout();
+  //       localStorage.removeItem('lastURL');
+  //       navigate('/'); // Navigate to the login page
+  //     }
+  //   } else if (
+  //     path.startsWith('/questions/') &&
+  //     !specificRoutes.includes(path)
+  //   ) {
+  //     if (selectedUser === lastUser) {
+  //       navigate('/404', { replace: true }); // Navigate to the 404 page
+  //     } else {
+  //       handleLogout();
+  //       localStorage.removeItem('lastURL');
+  //       navigate('/'); // Navigate to the login page
+  //     }
+  //   } else {
+  //     handleLogout();
+  //     localStorage.removeItem('lastURL');
+  //     navigate('/'); // Navigate to the login page
+  //   }
+  // }, []); // Include selectedUser in the dependency array
 
   return (
     <Fragment>
