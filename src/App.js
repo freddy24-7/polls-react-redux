@@ -46,6 +46,15 @@ function App(props) {
     setLastURL(window.location.pathname);
   }, [location]);
 
+  const specificRoutes = [
+    '/questions/8xf0y6ziyjabvozdd253nd',
+    '/questions/6ni6ok3ym7mf1p33lnez',
+    '/questions/am8ehyc8byjqgar0jgpub9',
+    '/questions/loxhs1bqm25b708cmbf3g',
+    '/questions/vthrdm985a262al8qx3do',
+    '/questions/xj352vofupe1dqz9emx13r',
+  ];
+
   const handleLogin = (e) => {
     e.preventDefault();
     // Retrieve the last URL from local storage
@@ -65,7 +74,9 @@ function App(props) {
 
         if (selectedUser === lastUser) {
           if (lastURL && typeof lastURL === 'string') {
-            if (lastURL.startsWith('/questions/')) {
+            if (specificRoutes.includes(lastURL)) {
+              navigate(lastURL, { replace: true });
+            } else if (lastURL.startsWith('/questions/')) {
               navigate('/404');
             } else {
               navigate(lastURL, { replace: true });
@@ -100,6 +111,31 @@ function App(props) {
     setErrorMessage('');
     navigate('/');
   }, [dispatch, navigate, setUserId, setAvatar, setSelectedUser, setPassword]);
+
+  useEffect(() => {
+    const path = location.pathname;
+    const validPaths = ['/add', '/leaderboard', '/home'];
+    if (validPaths.includes(path)) {
+      handleLogout();
+      localStorage.setItem('lastURL', path);
+      navigate('/');
+    } else if (specificRoutes.includes(path)) {
+      handleLogout();
+      localStorage.setItem('lastURL', path);
+      navigate(path);
+    } else if (
+      path.startsWith('/questions/') &&
+      !specificRoutes.includes(path)
+    ) {
+      handleLogout();
+      localStorage.setItem('lastURL', path);
+      navigate('/');
+    } else {
+      handleLogout();
+      localStorage.removeItem('lastURL');
+      navigate('/');
+    }
+  }, []);
 
   return (
     <Fragment>
