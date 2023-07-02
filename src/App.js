@@ -5,11 +5,11 @@ import {
   useNavigate,
   useLocation,
 } from 'react-router-dom';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useCallback, useEffect, useState } from 'react';
 import { users } from './utils/_DATA';
 import Navigation from './components/Navigation';
 import { useLocalStorage } from './hooks/useLocalStorage';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import LoadingBar from 'react-redux-loading-bar';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
@@ -17,11 +17,9 @@ import LeaderBoard from './components/LeaderBoard';
 import Questions from './components/Questions';
 import NewQuestion from './components/NewQuestion';
 import NotFound from './components/NotFound';
-import { resetState } from './redux/index';
 import { logoutUser } from './redux/authedUserSlice';
 import { useDispatch } from 'react-redux';
 import Protected from './utils/Protected';
-import { saveQuestionAnswer } from './utils/api';
 
 function App(props) {
   const location = useLocation();
@@ -85,7 +83,7 @@ function App(props) {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     // Check if the items exist in local storage
     if (localStorage.getItem('lastUser') && localStorage.getItem('lastURL')) {
       localStorage.clear();
@@ -100,26 +98,65 @@ function App(props) {
     setPassword('');
     setErrorMessage('');
     navigate('/');
-  };
+  }, []);
+
+  // useEffect(() => {
+  //   const path = location.pathname;
+  //   const questionPath = path.startsWith('/questions/')
+  //     ? location.pathname
+  //     : '';
+  //   const accessedByTyping = ['/add', '/leaderboard', '/home'].includes(path);
+  //   const validPaths = ['/add', '/leaderboard', '/home'];
+  //
+  //   const navigationEntries = window.performance.getEntriesByType('navigation');
+  //   const isPageReload = navigationEntries.length > 0;
+  //
+  //   if (
+  //     (validPaths.includes(path) || !path.startsWith('/questions/')) &&
+  //     accessedByTyping &&
+  //     !isPageReload
+  //   ) {
+  //     localStorage.setItem('lastURL', '/');
+  //     localStorage.setItem('lastUser', userId);
+  //     location.href = '/'; // Redirect the user to the root page
+  //   } else {
+  //     localStorage.removeItem('lastURL');
+  //   }
+  //
+  //   if (questionPath && !isPageReload) {
+  //     localStorage.setItem('lastURL', questionPath);
+  //     // handleLogout(); // Call handleLogout function when the questionPath exists and it's not a page reload
+  //   }
+  // }, []);
+  useEffect(() => {
+    const handleWindowPopstate = () => {
+      handleLogout();
+    };
+    localStorage.setItem('lastURL', window.location.pathname);
+
+    window.addEventListener('popstate', handleWindowPopstate);
+
+    return () => {
+      window.removeEventListener('popstate', handleWindowPopstate);
+    };
+  }, []);
+
+  const [barCode, setBarcode] = useState(false);
 
   useEffect(() => {
     const path = location.pathname;
-    const questionPath = path.startsWith('/questions/')
-      ? location.pathname
-      : '';
-    const accessedByTyping = ['/add', '/leaderboard', '/home'].includes(path);
-    handleLogout();
-    navigate('/');
     const validPaths = ['/add', '/leaderboard', '/home'];
-    if (validPaths.includes(path) && accessedByTyping) {
+
+    if (!validPaths.includes(path)) {
       localStorage.setItem('lastURL', path);
-    } else {
-      localStorage.removeItem('lastURL');
+      localStorage.setItem('lastUser', userId);
     }
-    if (questionPath) {
-      localStorage.setItem('lastURL', questionPath);
-    }
-  }, [dispatch]);
+    setBarcode(true);
+  }, []);
+
+  useEffect(() => {
+    handleLogout();
+  }, [barCode]);
 
   return (
     <Fragment>

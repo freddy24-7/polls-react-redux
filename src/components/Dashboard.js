@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import useInitialDataLoader from '../utils/initialDataLoader';
 import './Dashboard.css';
 import QuestionList from './QuestionList';
