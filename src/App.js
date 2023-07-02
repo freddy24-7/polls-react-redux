@@ -27,7 +27,6 @@ function App(props) {
   const [errorMessage, setErrorMessage] = useState('');
   const [selectedUser, setSelectedUser] = useState('');
   const [password, setPassword] = useState('');
-  // const [avatar, setAvatar] = useState('');
   const [avatar, setAvatar] = useLocalStorage('avatar', '');
   const [userId, setUserId] = useLocalStorage('userId', '');
   const dispatch = useDispatch();
@@ -76,6 +75,7 @@ function App(props) {
           if (lastURL && typeof lastURL === 'string') {
             if (specificRoutes.includes(lastURL)) {
               navigate(lastURL, { replace: true });
+              return;
             } else if (lastURL.startsWith('/questions/')) {
               navigate('/404');
             } else {
