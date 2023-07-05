@@ -38,11 +38,18 @@ function App(props) {
     if (lastUser) {
       setSelectedUser(lastUser);
     }
+
+    // Retrieve the last URL from local storage
+    const storedLastURL = localStorage.getItem('lastURL');
+    if (storedLastURL) {
+      setLastURL(storedLastURL);
+      localStorage.removeItem('lastURL');
+    }
   }, []);
 
   useEffect(() => {
     // Update lastURL when the URL changes
-    setLastURL(window.location.pathname);
+    setLastURL(location.pathname);
   }, [location]);
 
   const specificRoutes = [
@@ -113,8 +120,9 @@ function App(props) {
   }, [dispatch, navigate, setUserId, setAvatar, setSelectedUser, setPassword]);
 
   useEffect(() => {
-    const path = location.pathname;
+    const path = lastURL || location.pathname;
     const validPaths = ['/add', '/leaderboard', '/home'];
+
     if (validPaths.includes(path)) {
       handleLogout();
       localStorage.setItem('lastURL', path);
@@ -136,44 +144,6 @@ function App(props) {
       navigate('/');
     }
   }, []);
-  // useEffect(() => {
-  //   const path = location.pathname;
-  //   const validPaths = ['/add', '/leaderboard', '/home'];
-  //   const lastUser = localStorage.getItem('lastUser'); // Retrieve the last user from local storage
-  //
-  //   if (validPaths.includes(path)) {
-  //     if (selectedUser === lastUser) {
-  //       navigate(path, { replace: true }); // Navigate to the last visited valid path
-  //     } else {
-  //       handleLogout();
-  //       localStorage.removeItem('lastURL');
-  //       navigate('/'); // Navigate to the login page
-  //     }
-  //   } else if (specificRoutes.includes(path)) {
-  //     if (selectedUser === lastUser) {
-  //       navigate(path, { replace: true }); // Navigate to the last visited specific route
-  //     } else {
-  //       handleLogout();
-  //       localStorage.removeItem('lastURL');
-  //       navigate('/'); // Navigate to the login page
-  //     }
-  //   } else if (
-  //     path.startsWith('/questions/') &&
-  //     !specificRoutes.includes(path)
-  //   ) {
-  //     if (selectedUser === lastUser) {
-  //       navigate('/404', { replace: true }); // Navigate to the 404 page
-  //     } else {
-  //       handleLogout();
-  //       localStorage.removeItem('lastURL');
-  //       navigate('/'); // Navigate to the login page
-  //     }
-  //   } else {
-  //     handleLogout();
-  //     localStorage.removeItem('lastURL');
-  //     navigate('/'); // Navigate to the login page
-  //   }
-  // }, []); // Include selectedUser in the dependency array
 
   return (
     <Fragment>
