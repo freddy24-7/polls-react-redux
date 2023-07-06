@@ -117,32 +117,66 @@ function App(props) {
     setPassword('');
     setErrorMessage('');
     navigate('/');
-  }, [dispatch, navigate, setUserId, setAvatar, setSelectedUser, setPassword]);
+  }, [
+    dispatch,
+    navigate,
+    userId,
+    setUserId,
+    setAvatar,
+    setSelectedUser,
+    setPassword,
+  ]);
 
   useEffect(() => {
     const path = lastURL || location.pathname;
     const validPaths = ['/add', '/leaderboard', '/home'];
 
     if (validPaths.includes(path)) {
-      handleLogout();
       localStorage.setItem('lastURL', path);
-      navigate('/');
     } else if (specificRoutes.includes(path)) {
-      handleLogout();
       localStorage.setItem('lastURL', path);
-      navigate(path);
     } else if (
       path.startsWith('/questions/') &&
       !specificRoutes.includes(path)
     ) {
-      handleLogout();
       localStorage.setItem('lastURL', path);
-      navigate('/');
     } else {
-      handleLogout();
       localStorage.removeItem('lastURL');
-      navigate('/');
     }
+  }, []);
+
+  const handlePathChange = () => {
+    const path = window.location.pathname; // Get the updated path value
+    console.log(path);
+    if (
+      path === '/add' ||
+      path === '/leaderboard' ||
+      path.startsWith('/questions')
+    ) {
+      handleLogout();
+    }
+  };
+
+  const handleBeforeUnload = () => {
+    const path = window.location.pathname;
+    if (
+      path === '/add' ||
+      path === '/leaderboard' ||
+      path.startsWith('/questions')
+    ) {
+      console.log(path);
+    }
+  };
+
+  useEffect(() => {
+    handlePathChange();
+    console.log('code ran');
+    window.addEventListener('hashchange', handlePathChange);
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('hashchange', handlePathChange);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
   }, []);
 
   return (
