@@ -4,20 +4,6 @@ import './NotFound.css';
 const NotFound = ({ handleLogout }) => {
   //README: Allows the logout after hitting NotFound
   //README: Here silenced as not needed for this project
-  // const dispatch = useDispatch();
-  // const navigate = useNavigate();
-  //
-  // useEffect(() => {
-  //
-  //   const logoutTimer = setTimeout(() => {
-  //     handleLogout();
-  //     navigate('/');
-  //   }, 3000);
-  //
-  //   return () => {
-  //     clearTimeout(logoutTimer);
-  //   };
-  // }, [dispatch, navigate, handleLogout]);
 
   return (
     <div className="not-found-container">
