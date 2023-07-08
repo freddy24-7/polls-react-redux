@@ -10,10 +10,10 @@ const Dashboard = () => {
   const users = useSelector((state) => state.users);
   const user = users[userId];
 
-  // Custom hook to load initial data
+  //Custom hook to load initial data
   useInitialDataLoader();
 
-  // Compute answered and unanswered question IDs
+  //Computing answered and unanswered question IDs
   const answeredQuestionIds = user ? Object.keys(user.answers) : [];
   const unansweredQuestionIds = Object.keys(questions).filter(
     (id) => id !== 'newQuestion' && !answeredQuestionIds.includes(id),

@@ -79,8 +79,6 @@ const Questions = () => {
     }
   }, [selectedOption, question, authedUser, users]);
 
-  console.log(authedUser);
-
   //Handling the vote
   const handleVote = (optionText) => {
     if (!authedUser) {
@@ -111,7 +109,7 @@ const Questions = () => {
     localStorage.removeItem(`selectedOption_${question_id}`);
   });
 
-  // Checking if the user has responded to the question
+  //Checking if the user has responded to the question
   const userHasResponded =
     (question &&
       question.optionOne &&
@@ -121,6 +119,8 @@ const Questions = () => {
         localStorage.getItem(`hasResponded_${question_id}`) === 'true')) ||
     false;
 
+  //Below code (until return statement) is for "corner case" where user is redirected
+  //to specific question url after logging in but before redux store is updated
   useEffect(() => {
     // Retrieve the userId from local storage
     const userId = localStorage.getItem('userId');
@@ -128,10 +128,6 @@ const Questions = () => {
       setSelectedUser(userId);
     }
   }, []);
-
-  console.log('authedUser', authedUser);
-  console.log(question_id);
-  console.log(selectedUser);
 
   const avatars = {
     sarahedo: avatarSara,
@@ -154,21 +150,15 @@ const Questions = () => {
         optionTwo,
       };
     } else {
-      return null; // Question not found
+      return null;
     }
   };
 
   const questionDetails = getQuestionDetails(question_id);
   if (questionDetails) {
     const { optionOne, optionTwo } = questionDetails;
-    console.log('Option One:', optionOne);
-    console.log('Option Two:', optionTwo);
     const authorId = questions[question_id].author;
     const avatarURL = users2[authorId].avatarURL;
-    console.log('Avatar URL:', avatarURL);
-    console.log('Avatar URL from avatars object:', avatars[authorId]);
-    console.log(authorId);
-
     // Store values in local storage
     localStorage.setItem('avatarURL', avatarURL);
     localStorage.setItem('optionOne', JSON.stringify(optionOne));
@@ -177,17 +167,10 @@ const Questions = () => {
     console.log('Question not found');
   }
 
-  // Retrieve values from local storage
+  //Retrieving values from local storage
   const storedAvatarURL = localStorage.getItem('avatarURL');
   const storedOptionOne = JSON.parse(localStorage.getItem('optionOne'));
   const storedOptionTwo = JSON.parse(localStorage.getItem('optionTwo'));
-
-  console.log('Stored Avatar URL:', storedAvatarURL);
-  console.log(storedOptionOne);
-  console.log(storedOptionTwo);
-  console.log(storedOptionOne.text);
-  console.log(storedOptionTwo.text);
-  console.log(userHasResponded);
 
   return (
     <div className="question-container">

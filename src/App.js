@@ -31,27 +31,6 @@ function App(props) {
   const [userId, setUserId] = useLocalStorage('userId', '');
   const dispatch = useDispatch();
   const [lastURL, setLastURL] = useState('');
-
-  useEffect(() => {
-    // Retrieve the last user from local storage
-    const lastUser = localStorage.getItem('lastUser');
-    if (lastUser) {
-      setSelectedUser(lastUser);
-    }
-
-    // Retrieve the last URL from local storage
-    const storedLastURL = localStorage.getItem('lastURL');
-    if (storedLastURL) {
-      setLastURL(storedLastURL);
-      localStorage.removeItem('lastURL');
-    }
-  }, []);
-
-  useEffect(() => {
-    // Update lastURL when the URL changes
-    setLastURL(location.pathname);
-  }, [location]);
-
   const specificRoutes = [
     '/questions/8xf0y6ziyjabvozdd253nd',
     '/questions/6ni6ok3ym7mf1p33lnez',
@@ -61,6 +40,27 @@ function App(props) {
     '/questions/xj352vofupe1dqz9emx13r',
   ];
 
+  //Handling last user and last URL
+  useEffect(() => {
+    // Retrieve the last user from local storage
+    const lastUser = localStorage.getItem('lastUser');
+    if (lastUser) {
+      setSelectedUser(lastUser);
+    }
+    // Retrieve the last URL from local storage
+    const storedLastURL = localStorage.getItem('lastURL');
+    if (storedLastURL) {
+      setLastURL(storedLastURL);
+      localStorage.removeItem('lastURL');
+    }
+  }, []);
+
+  //Updating lastURL when the URL changes
+  useEffect(() => {
+    setLastURL(location.pathname);
+  }, [location]);
+
+  //Handling login
   const handleLogin = (e) => {
     e.preventDefault();
     // Retrieve the last URL from local storage
@@ -102,6 +102,7 @@ function App(props) {
     }
   };
 
+  //Handling logout
   const handleLogout = useCallback(() => {
     // Clear lastURL from local storage
     localStorage.removeItem('lastURL');
@@ -127,6 +128,7 @@ function App(props) {
     setPassword,
   ]);
 
+  //Handling user generated URL browser actions (from this point to return statement)
   useEffect(() => {
     const path = lastURL || location.pathname;
     const validPaths = ['/add', '/leaderboard', '/home'];

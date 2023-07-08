@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { saveQuestion } from '../redux/questionsSlice';
@@ -6,10 +6,13 @@ import Button from './Button';
 import './NewQuestion.css';
 import { users } from '../utils/_DATA';
 import { resetState } from '../redux';
+import Modal from './Modal';
 
 const NewQuestion = () => {
   const [optionOneText, setOptionOneText] = useState('');
   const [optionTwoText, setOptionTwoText] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
   const authedUser = useSelector((state) => state.authedUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -17,13 +20,41 @@ const NewQuestion = () => {
   const handleOptionOneChange = (e) => {
     setOptionOneText(e.target.value);
   };
+
   const handleOptionTwoChange = (e) => {
     setOptionTwoText(e.target.value);
   };
 
-  //Dispatching the saveQuestion action creator
+  //Adding a timeout for modal display
+  useEffect(() => {
+    let timeout;
+
+    if (showModal) {
+      // If showModal is true, set the timeout for 2 seconds
+      timeout = setTimeout(() => {
+        setShowModal(false);
+      }, 2000);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [showModal]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    //Validating question length
+    if (optionOneText.length > 50 || optionTwoText.length > 50) {
+      setModalMessage('Question length should be maximum 50 characters.');
+      setShowModal(true);
+      return;
+    }
+
+    //Validating alternatives
+    if (optionOneText === optionTwoText) {
+      setModalMessage('The two alternatives cannot be equal.');
+      setShowModal(true);
+      return;
+    }
 
     dispatch(
       saveQuestion({
@@ -34,11 +65,9 @@ const NewQuestion = () => {
       }),
     );
 
-    //Resetting the form fields
     setOptionOneText('');
     setOptionTwoText('');
 
-    //Navigating back to the home page
     navigate('/home');
     dispatch(resetState());
   };
@@ -74,6 +103,7 @@ const NewQuestion = () => {
           </form>
         </div>
       </div>
+      {showModal && <Modal message={modalMessage} />}
     </Fragment>
   );
 };

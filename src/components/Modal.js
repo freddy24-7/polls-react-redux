@@ -3,11 +3,6 @@ import './Modal.css';
 
 const Modal = ({ message }) => {
   useEffect(() => {
-    // Runs when the modal component mounts
-
-    console.log('Modal opened:', true);
-
-    //Setting a timeout to close the modal after 7 seconds
     const timeout = setTimeout(() => {
       console.log('Modal closed:', false);
     }, 3500);
