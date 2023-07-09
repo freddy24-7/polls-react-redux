@@ -17,6 +17,7 @@ The Employee Polls Application is a web application that allows employees to par
 - React: JavaScript library for building user interfaces.
 - React Router: Library for handling navigation and routing in a React application.
 - Redux: State management library for managing application state.
+- Redux Toolkit: Official Redux package for efficient Redux development.
 - react-redux: Official React bindings for Redux.
 - react-redux-loading-bar: Redux addon for displaying a loading bar.
 - react-router-dom: DOM bindings for React Router.
