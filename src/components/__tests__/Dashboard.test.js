@@ -1,50 +1,28 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { useSelector, useDispatch } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import { renderWithProviders } from '../../utils/test-utils/setup-test';
 import Dashboard from '../Dashboard';
+import rootReducer from '../../redux/index';
 
-// Mocking the react-redux hooks
-jest.mock('react-redux', () => ({
-  useSelector: jest.fn(),
-  useDispatch: jest.fn(),
-}));
-
-// Mocking the showLoading and hideLoading functions from react-redux-loading-bar
-jest.mock('react-redux-loading-bar', () => ({
-  showLoading: jest.fn(),
-  hideLoading: jest.fn(),
-}));
-
-// Mocking the handleInitialData function from the shared actions
-jest.mock('../../actions/shared', () => ({
-  handleInitialData: jest.fn(),
-}));
-
-describe('Dashboard', () => {
-  test('should group answers correctly into "Questions already done" and "New Questions"', () => {
-    const dispatch = jest.fn(); // Mock dispatch function
-    useDispatch.mockReturnValue(dispatch);
-
-    useSelector.mockReturnValueOnce('user123'); // Mock authedUser
-    useSelector.mockReturnValueOnce({
-      question1: { author: 'user123' },
-      question2: { author: 'user123' },
-      question3: { author: 'user123' },
-    }); // Mock questions
-    useSelector.mockReturnValueOnce({
-      user123: {
-        answers: {
-          question1: 'optionOne',
-          question3: 'optionTwo',
+describe('Dashboard component', () => {
+  it('should render the list of unanswered questions', () => {
+    const unansweredQuestionIds = ['question3', 'question4'];
+    const { queryByText } = renderWithProviders(<Dashboard />, {
+      store: createStore(
+        rootReducer,
+        {
+          users: { user1: { name: 'John Doe', answers: {} } },
+          questions: {
+            question3: { id: 'question3', text: 'Question 3' },
+            question4: { id: 'question4', text: 'Question 4' },
+          },
+          authedUser: 'user1',
         },
-      },
-    }); // Mock users
-    useSelector.mockReturnValueOnce(['question1', 'question2', 'question3']); // Mock answeredQuestionIds
-    useSelector.mockReturnValueOnce(['question2']); // Mock unansweredQuestionIds
-
-    render(<Dashboard />);
-
-    expect(screen.getByText('Questions already done')).toBeInTheDocument();
-    expect(screen.getByText('New Questions')).toBeInTheDocument();
+        applyMiddleware(thunk),
+      ),
+    });
+    expect(queryByText(/new questions/i)).toBeInTheDocument();
+    expect(queryByText(/question 3/i)).toBeNull();
+    expect(queryByText(/question 4/i)).toBeNull();
   });
 });

@@ -18,4 +18,22 @@
 .dashboard-container {
     background-color: #f1f1f1;
     min-height: 100vh;
+    text-align: center;
+}
+
+.toggle-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.text {
+    text-align: center;
+    color: #ba8b1e
+}
+
+.toggle-container {
+    margin-top: 20px;
+    text-align: center;
+    color: #ba8b1e
+
 }
