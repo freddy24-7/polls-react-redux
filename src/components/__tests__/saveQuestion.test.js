@@ -43,6 +43,7 @@ test('saveQuestion returns an error if incorrect data is passed', async () => {
     await saveQuestion(incorrectData);
   } catch (error) {
     // Verify the error message
+    // eslint-disable-next-line jest/no-conditional-expect
     expect(error).toBe(
       'Please provide optionOneText, optionTwoText, and author',
     );

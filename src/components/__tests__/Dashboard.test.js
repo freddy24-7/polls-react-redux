@@ -6,7 +6,6 @@ import rootReducer from '../../redux/index';
 
 describe('Dashboard component', () => {
   it('should render the list of unanswered questions', () => {
-    const unansweredQuestionIds = ['question3', 'question4'];
     const { queryByText } = renderWithProviders(<Dashboard />, {
       store: createStore(
         rootReducer,
@@ -21,8 +20,11 @@ describe('Dashboard component', () => {
         applyMiddleware(thunk),
       ),
     });
+    // eslint-disable-next-line testing-library/prefer-presence-queries,testing-library/prefer-screen-queries
     expect(queryByText(/new questions/i)).toBeInTheDocument();
+    // eslint-disable-next-line testing-library/prefer-screen-queries
     expect(queryByText(/question 3/i)).toBeNull();
+    // eslint-disable-next-line testing-library/prefer-screen-queries
     expect(queryByText(/question 4/i)).toBeNull();
   });
 });

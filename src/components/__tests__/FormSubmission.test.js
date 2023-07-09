@@ -18,6 +18,7 @@ describe('NewQuestion', () => {
 
     store.dispatch = jest.fn();
 
+    // eslint-disable-next-line testing-library/no-render-in-setup
     component = render(
       <Provider store={store}>
         <Router>
@@ -28,8 +29,11 @@ describe('NewQuestion', () => {
   });
 
   it('should dispatch saveQuestion action on form submission', () => {
+    // eslint-disable-next-line testing-library/prefer-screen-queries
     const optionOneInput = component.getByLabelText('Option One:');
+    // eslint-disable-next-line testing-library/prefer-screen-queries
     const optionTwoInput = component.getByLabelText('Option Two:');
+    // eslint-disable-next-line testing-library/prefer-screen-queries
     const submitButton = component.getByText('Submit');
 
     fireEvent.change(optionOneInput, { target: { value: 'Option 1' } });
@@ -48,8 +52,11 @@ describe('NewQuestion', () => {
   });
 
   it('should display modal with error message for invalid question length', () => {
+    // eslint-disable-next-line testing-library/prefer-screen-queries
     const optionOneInput = component.getByLabelText('Option One:');
+    // eslint-disable-next-line testing-library/prefer-screen-queries
     const optionTwoInput = component.getByLabelText('Option Two:');
+    // eslint-disable-next-line testing-library/prefer-screen-queries
     const submitButton = component.getByText('Submit');
 
     fireEvent.change(optionOneInput, {
@@ -61,6 +68,7 @@ describe('NewQuestion', () => {
     fireEvent.change(optionTwoInput, { target: { value: 'Option 2' } });
     fireEvent.click(submitButton);
 
+    // eslint-disable-next-line testing-library/prefer-screen-queries
     const modal = component.getByText(
       'Question length should be maximum 50 characters.',
     );
@@ -68,14 +76,18 @@ describe('NewQuestion', () => {
   });
 
   it('should display modal with error message for equal alternatives', () => {
+    // eslint-disable-next-line testing-library/prefer-screen-queries
     const optionOneInput = component.getByLabelText('Option One:');
+    // eslint-disable-next-line testing-library/prefer-screen-queries
     const optionTwoInput = component.getByLabelText('Option Two:');
+    // eslint-disable-next-line testing-library/prefer-screen-queries
     const submitButton = component.getByText('Submit');
 
     fireEvent.change(optionOneInput, { target: { value: 'Option' } });
     fireEvent.change(optionTwoInput, { target: { value: 'Option' } });
     fireEvent.click(submitButton);
 
+    // eslint-disable-next-line testing-library/prefer-screen-queries
     const modal = component.getByText('The two alternatives cannot be equal.');
     expect(modal).toBeInTheDocument();
   });
