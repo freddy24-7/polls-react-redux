@@ -11,9 +11,9 @@ const Dashboard = () => {
   const questions = useSelector((state) => state.questions);
   const users = useSelector((state) => state.users);
   const user = users[userId];
-  const [showAnswered, setShowAnswered] = useState(true); // State to toggle between answered and unanswered questions
+  const [showAnswered, setShowAnswered] = useState(true);
 
-  // Custom hook to load initial data
+  //Custom hook to load initial data
   useInitialDataLoader();
 
   // Computing answered and unanswered question IDs
