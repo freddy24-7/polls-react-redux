@@ -1,7 +1,6 @@
 import { saveQuestion } from '../../redux/questionsSlice';
 
 // Test case 1: Verify that the saved question is returned and all expected fields are populated
-// Test case 1: Verify that the saved question is returned and all expected fields are populated
 test('saveQuestion returns the saved question with expected fields', async () => {
   // Mock data
   const questionId = 'xyz123';
