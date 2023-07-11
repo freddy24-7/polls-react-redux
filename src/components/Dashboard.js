@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import useInitialDataLoader from '../utils/initialDataLoader';
 import Toggle from 'react-toggle';
@@ -11,16 +11,22 @@ const Dashboard = () => {
   const questions = useSelector((state) => state.questions);
   const users = useSelector((state) => state.users);
   const user = users[userId];
-  const [showAnswered, setShowAnswered] = useState(true);
+  const [showAnswered, setShowAnswered] = useState(false);
+  const [answeredQuestionIds, setAnsweredQuestionIds] = useState([]);
+  const [unansweredQuestionIds, setUnansweredQuestionIds] = useState([]);
 
-  //Custom hook to load initial data
+  // Custom hook to load initial data
   useInitialDataLoader();
 
-  // Computing answered and unanswered question IDs
-  const answeredQuestionIds = user ? Object.keys(user.answers) : [];
-  const unansweredQuestionIds = Object.keys(questions).filter(
-    (id) => id !== 'newQuestion' && !answeredQuestionIds.includes(id),
-  );
+  useEffect(() => {
+    const answeredIds = user ? Object.keys(user.answers) : [];
+    const unansweredIds = Object.keys(questions).filter(
+      (id) => id !== 'newQuestion' && !answeredIds.includes(id),
+    );
+
+    setAnsweredQuestionIds(answeredIds);
+    setUnansweredQuestionIds(unansweredIds);
+  }, [user, questions]);
 
   return (
     <div className="dashboard-container">
